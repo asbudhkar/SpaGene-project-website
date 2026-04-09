@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpaGene Project Website</title>
+  <meta name="description" content="SpaGene: A Deep Adversarial Framework for Spatial Gene Imputation">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <h1>SpaGene: A Deep Adversarial Framework for Spatial Gene Imputation</h1>
+      <p class="authors">
+        Aishwarya Budhkar<sup>1</sup>, Juhyung Ha<sup>1</sup>, Qianqian Song<sup>2</sup>, Jing Su<sup>3</sup>, Xuhong Zhang<sup>1</sup>
+      </p>
+      <p class="affiliations">
+        <span><sup>1</sup> Indiana University Bloomington</span><br>
+        <span><sup>2</sup> University of Florida</span><br>
+        <span><sup>3</sup> Indiana University School of Medicine</span>
+      </p>
+      <div class="hero__actions">
+        <a class="button" href="https://www.biorxiv.org/content/10.1101/2025.10.03.680242v1">Paper</a>
+        <a class="button button--ghost" href="https://github.com/asbudhkar/SpaGene">Code</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section--abstract">
+      <div class="section__header">
+        <p class="section__label">Abstract</p>
+      </div>
+      <div class="prose prose--abstract">
+        <p>
+          Integrating transcriptome-wide single-cell gene expression data with spatial context significantly enhances our understanding of tissue biology, cellular interactions, and disease progression. Although single-cell RNA sequencing (scRNA-seq) provides high-resolution gene expression data, it lacks crucial spatial context, whereas spatial transcriptomics techniques offer spatial resolution but are limited in the transcriptomic coverage. To address these limitations, integrating scRNA-seq and spatial transcriptomics data is essential. We introduce SpaGene, a deep learning framework designed to integrate scRNA-seq and spatial transcriptomics data. SpaGene consists of two encoder-decoder pairs combined with two translators and two discriminators to effectively impute missing gene expression within spatial transcriptomics datasets. We benchmarked SpaGene against six representative methods across diverse datasets. Across dataset pairs under a controlled gene-holdout evaluation protocol, SpaGene improves average Pearson correlation coefficient (PCC) and cell-wise Structural similarity index (SSIM) and reduces Root mean squared error (RMSE) compared to the evaluated baselines, indicating more accurate recovery of held-out spatial gene expression. Application of our model to lung tumor tissue revealed spatial patterns consistent with immune cell enrichment at tumor boundaries, restricted myeloid cell presence in adjacent normal regions, and improved detection sensitivity of microenvironment-driven pathways linked to immune neighborhoods. These findings provide insight into immune exclusion and tumor-immune interactions motivating further biological validation.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--framework">
+      <div class="section__header">
+        <p class="section__label">The SpaGene Framework</p>
+      </div>
+      <div class="overview">
+        <p>
+          SpaGene is designed to predict genes that are unmeasured in spatial transcriptomics by
+          leveraging a reference single-cell RNA-seq dataset. The model combines modality-specific
+          representation learning with latent-space translation to learn unique and shared features
+          across ST and SC latent spaces. SpaGene recovers missing spatial gene expression under partial
+          gene overlap and platform mismatch while preserving biologically relevant variation.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img class="figure-image" src="assets/Fig1.png" alt="SpaGene framework figure">
+        <p class="caption">
+          Figure 1. Overview of SpaGene. Panel a presents the overall objective of using reference single-cell data to predict unmeasured genes in spatial transcriptomics and produce enriched spatial profiles. Panel b shows the three core components: encoder-decoder modules, translators, and discriminators. Panel c highlights the bidirectional latent-space translation process between ST and SC domains, and panel d shows inference where ST data is projected, translated into the SC domain, and reconstructed to expand measured gene expression.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--benchmark">
+      <div class="section__header">
+        <p class="section__label">Benchmark Performance Across Datasets</p>
+      </div>
+      <div class="overview">
+        <p>
+          We benchmarked SpaGene against six representative methods across eight dataset pairs and
+          evaluated performance using PCC, SSIM, RMSE, Wasserstein distance, and Jensen-Shannon
+          divergence. Across the benchmark, SpaGene showed more accurate recovery of held-out
+          spatial gene expression under the same evaluation protocol.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img class="figure-image" src="assets/Fig2.png" alt="SpaGene benchmark performance figure">
+        <p class="caption">
+          Figure 2. SpaGene compared with six representative methods across eight dataset pairs. Panels a to c summarize PCC, SSIM, and RMSE across benchmarks, panels d and e show the complementary distribution-based metrics Wasserstein distance and Jensen-Shannon divergence, and panel f summarizes average performance across datasets. SpaGene consistently improves PCC and SSIM while reducing RMSE under identical gene-holdout splits.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--nanostring">
+      <div class="section__header">
+        <p class="section__label">NanoString Lung9 rep1</p>
+      </div>
+      <div class="overview">
+        <p>
+          On the NanoString Lung9 rep1 sample, SpaGene achieved stronger agreement with measured
+          spatial expression than the compared methods. Average PCC and gene-level
+          comparisons show that SpaGene better reconstructs representative spatial patterns.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img class="figure-image" src="assets/Fig3.png" alt="NanoString Lung9 rep1 figure">
+        <p class="caption">
+          Figure 3. Reference evaluation on the NanoString Lung9 rep1 sample. Panel a shows the box plot of PCC for each competing method. Panel b shows the scatter plot of PCC values for each imputed gene, where points above the y = x line indicate better performance for SpaGene. Panel c shows the spatial patterns for STMN1, NDRG1, and CD163 for each method. The High/Low color scale is provided as a visual guide and is not a shared quantitative scale across methods. In each panel, color intensity should be interpreted relative to the panel’s own expression range. Therefore, the visual comparison is intended to assess spatial pattern recovery rather than absolute expression magnitude across methods.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--starmap">
+      <div class="section__header">
+        <p class="section__label">STARmap_AllenVISp</p>
+      </div>
+      <div class="overview">
+        <p>
+          We further evaluated SpaGene on the STARmap_AllenVISp dataset to assess predictive
+          accuracy under a distinct spatial transcriptomics setting. SpaGene achieved higher PCC
+          and more faithful spatial recovery for representative genes than the competing methods.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img class="figure-image" src="assets/Fig4.png" alt="STARmap AllenVISp figure">
+        <p class="caption">
+          Figure 4. Reference evaluation on the STARmap data. Panel a shows the box plot of PCC for each competing method. Panel b shows the scatter plot of PCC values for each imputed gene between SpaGene and each competing method. Panel c shows the spatial patterns of measured genes CAMK2N1, PLP1, and ITM2A for each method. The High/Low color scale is provided as a visual guide and is not a shared quantitative scale across methods. In each panel, color intensity should be interpreted relative to the panel’s own expression range. Therefore, the visual comparison is intended to assess spatial pattern recovery rather than absolute expression magnitude across methods.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--biology">
+      <div class="section__header">
+        <p class="section__label">Biological Insights from Imputed Genes</p>
+      </div>
+      <div class="overview">
+        <p>
+          Beyond imputation accuracy, SpaGene supports downstream biological analysis by expanding
+          transcriptome coverage in spatial data. In the NanoString Lung9 rep1 sample, the imputed
+          profiles help reveal immune-rich tumor boundary regions and pseudotime-associated
+          immune neighborhood patterns while improving detection of microenvironment-driven pathways,
+          including immune, cell migration, and cell attachment pathways.
+        </p>
+      </div>
+      <div class="figure-block">
+        <img class="figure-image" src="assets/Fig5.png" alt="Biological insights from imputed genes figure">
+        <p class="caption">
+          Figure 5. Downstream biological analysis on the NanoString Lung9 rep1 sample. Panel a displays cell types and inferred spatial niches. Panel b presents UMAP and ridge density views of tumor niche cells ordered by pseudotime and grouped by lymphocyte or myeloid neighbor proportion. Panel c maps these neighborhood patterns back onto the tissue and across selected FOVs to highlight immune-rich regions near tumor boundaries. Panel d shows pathway enrichment comparisons for lymphocyte-associated and myeloid-associated neighborhoods using imputed versus raw expression data, with pathway points colored by annotation and the dashed line indicating y = x.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--citation" id="citation">
+      <div class="section__header">
+        <p class="section__label">Citation</p>
+      </div>
+      <div class="citation-block">
+        <p class="citation-text">
+          SpaGene: A Deep Adversarial Framework for Spatial Gene Imputation<br>
+          Aishwarya Budhkar, Juhyung Ha, Qianqian Song, Jing Su, Xuhong Zhang<br>
+          bioRxiv 2025.10.03.680242; doi:
+          <a class="text-link" href="https://doi.org/10.1101/2025.10.03.680242">https://doi.org/10.1101/2025.10.03.680242</a>
+        </p>
+        <pre><code>@article{budhkar2025spagene,
+  title={SpaGene: A Deep Adversarial Framework for Spatial Gene Imputation},
+  author={Budhkar, Aishwarya and Ha, Juhyung and Song, Qianqian and Su, Jing and Zhang, Xuhong},
+  journal={bioRxiv},
+  year={2025},
+  elocation-id={2025.10.03.680242},
+  doi={10.1101/2025.10.03.680242},
+  url={https://www.biorxiv.org/content/10.1101/2025.10.03.680242v1}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
